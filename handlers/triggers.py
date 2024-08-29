@@ -91,18 +91,20 @@ async def change_nickname(message: types.Message, dialog_manager: DialogManager)
     if len(parts) > 1 and parts[1].strip():
         new_nick = parts[1].strip()
 
-        if 4 > len(new_nick) > 32:
-            await message.reply("Никнейм должен быть короче 4 символов и длиннее 32 символов.")
+        if 4 > len(new_nick) or len(new_nick) > 32:
+            await message.reply("Никнейм не должен быть короче 4 символов и длиннее 32 символов.")
             return
 
-        if not premium_status and any(emoji.is_emoji(char) for char in new_nick):
-            await message.reply("Вы не можете использовать эмодзи в нике. Приобретите премиум в профиле!")
-            return
+        if any(emoji.is_emoji(char) for char in new_nick):
+            if not premium_status:
+                await message.reply("Вы не можете использовать эмодзи в нике. Приобретите премиум в профиле!")
+                return
+        else:
+            if not re.match(r'^[\w .,!?@#$%^&*()-+=/\]+$|^[\w .,!?@#$%^&*()-+=/а-яёА-ЯЁ]+$', new_nick):
+                await message.reply("Никнейм может содержать только латинские/русские буквы, "
+                                    "цифры и базовые символы пунктуации.")
+                return
 
-        if not re.match(r'^[\w .,!?@#$%^&*()-+=/\]+$|^[\w .,!?@#$%^&*()-+=/а-яёА-ЯЁ]+$', new_nick):
-            await message.reply("Никнейм может содержать только латинские/русские буквы, "
-                                "цифры и базовые символы пунктуации.")
-            return
         try:
             await change_username(user.telegram_id, new_nick)
         except sqlalchemy.exc.IntegrityError as e:
@@ -111,6 +113,7 @@ async def change_nickname(message: types.Message, dialog_manager: DialogManager)
         await message.reply(f"Ваш никнейм был изменен на {new_nick}.")
     else:
         await message.reply("Никнейм не может быть пустым. Укажите значение после команды.")
+
 
 
 def is_nickname_allowed(nickname):
