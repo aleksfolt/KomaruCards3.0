@@ -110,3 +110,7 @@ async def get_invoice_status(invoice_id):
     except Exception as e:
         print(f"Ошибка при получении данных инвойса: {e}")
         return None
+
+
+premium_router.pre_checkout_query.register(handle_pre_checkout_query)
+premium_router.message.register(handle_successful_payment, F.successful_payment)
