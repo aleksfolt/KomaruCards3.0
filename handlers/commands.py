@@ -35,6 +35,9 @@ async def privacy_handler(msg: Message, dialog_manager: DialogManager):
 
 @commands_router.message(Command("admin"))
 async def admin_cmd(message: Message, dialog_manager: DialogManager):
-    if message.from_user.id not in config.admins:
+    if message.chat.type == "private":
+        if message.from_user.id not in config.admins:
+            return
+        await dialog_manager.start(AdminSG.menu)
+    else:
         return
-    await dialog_manager.start(AdminSG.menu)
