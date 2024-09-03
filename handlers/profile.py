@@ -240,15 +240,18 @@ async def cards_top_callback(callback: types.CallbackQuery):
     if choice == "cards":
         top = await get_top_users_by_cards()
         user_rank = await get_me_on_top(func.cardinality(User.cards), user_id)
-    
+
         message_text = "🏆 Топ-10 пользователей по количеству собранных карточек:\n\n"
         for top_user in top:
-            message_text += f"{top_user[0]}. {top_user[1]} {top_user[2]}: {top_user[3]} карточек\n"
-    
+            message_text += f"{top_user[0]}. {top_user[1]} {top_user[2]}: {top_user[3]} карточек"
+            if user_id == 6184515646:
+                message_text += f" (user_id: {top_user[4]})"
+            message_text += "\n"
+
         if user_rank and user_rank > 10:
             message_text += (f"\nВаше место: {user_rank}"
                              f" ({user.nickname}: {len(user.cards)} карточек)")
-    
+
         markup = await top_kb(callback, "cards")
 
     elif choice == "point":
