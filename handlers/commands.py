@@ -1,10 +1,14 @@
+import random
+
 from aiogram import Router
-from aiogram.filters import Command
+from aiogram.filters import Command, CommandStart, CommandObject
 from aiogram.types import Message
 from aiogram_dialog import DialogManager
 
 from handlers.admin_dialogs import AdminSG
+from handlers.premium import send_payment_method_selection
 from kb import help_kb, start_kb
+from states import user_button
 from text import HELP_MESSAGE, PRIVACY_MESSAGE, WELCOME_MESSAGE, WELCOME_MESSAGE_PRIVATE
 
 import config
@@ -12,13 +16,19 @@ import config
 commands_router = Router()
 
 
-@commands_router.message(Command("start"))
-async def start_handler(msg: Message, dialog_manager: DialogManager):
-    if msg.chat.type == "private":
-        markup = await start_kb(msg)
-        await msg.answer(WELCOME_MESSAGE_PRIVATE, reply_markup=markup, parse_mode='HTML')
+
+@commands_router.message(CommandStart())
+async def handler_start_command(msg: Message, command: CommandObject):
+    if command.args == "premium":
+        unique_id = str(random.randint(10000, 9999999999))
+        user_button[unique_id] = str(msg.from_user.id)
+        await send_payment_method_selection(msg, msg.from_user.id, unique_id)
     else:
-        await msg.answer(WELCOME_MESSAGE, parse_mode='HTML')
+        if msg.chat.type == "private":
+            markup = await start_kb(msg)
+            await msg.answer(WELCOME_MESSAGE_PRIVATE, reply_markup=markup, parse_mode='HTML')
+        else:
+            await msg.answer(WELCOME_MESSAGE, parse_mode='HTML')
 
 
 @commands_router.message(Command("help"))
