@@ -84,7 +84,7 @@ async def check_premium(premium_expire: datetime):
 
 
 async def get_top_users_by_cards():
-    async with (AsyncSession(engine) as session):
+    async with AsyncSession(engine) as session:
         top_users = (
             await session.execute(
                 select(User).order_by(desc(func.cardinality(User.cards))).filter(func.cardinality(User.cards) > 0)
@@ -95,7 +95,7 @@ async def get_top_users_by_cards():
         i = 1
         for top_user in top_users:
             icon = "💎" if await check_premium(top_user.premium_expire) else ""
-            top += [[i, icon, top_user.nickname, len(top_user.cards)]]
+            top += [[i, icon, top_user.nickname, len(top_user.cards), top_user.telegram_id]]
             i += 1
         return top
 
