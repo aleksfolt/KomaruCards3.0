@@ -70,6 +70,15 @@ async def change_username(telegram_id: int, username: str):
         await session.commit()
 
 
+async def is_nickname_taken(nickname: str) -> bool:
+    async with AsyncSession(engine) as session:
+        result = await session.execute(
+            select(User).where(User.nickname == nickname)
+        )
+        users = result.scalars().all()
+        return len(users) > 0
+
+
 async def check_premium(premium_expire: datetime):
     return True if premium_expire is not None and premium_expire.date() > datetime.now().date() else False
 
