@@ -15,7 +15,8 @@ sys.path.append(os.path.realpath('.'))
 
 from database.cards import get_all_cards
 from database.models import Card
-from database.user import add_card, add_points, change_username, check_premium, get_user, update_last_get
+from database.user import add_card, add_points, change_username, check_premium, get_user, update_last_get, \
+    is_nickname_taken
 from filters import CardFilter, NotCommentFilter
 from loader import bot
 from text import forbidden_symbols
@@ -108,6 +109,10 @@ async def change_nickname(message: types.Message, dialog_manager: DialogManager)
 
         if '@' in new_nick or validators.url(new_nick) or 't.me' in new_nick:
             await message.reply("Никнейм не может содержать символ '@', ссылки или упоминания t.me.")
+            return
+
+        if await is_nickname_taken(new_nick):
+            await message.reply("Этот никнейм уже занят. Пожалуйста, выберите другой.")
             return
 
         try:
