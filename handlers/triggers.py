@@ -78,11 +78,6 @@ async def komaru_cards_function(msg: Message, dialog_manager: DialogManager):
     await add_points(user.telegram_id, int(chosen_cat.points))
 
 
-@text_triggers_router.message(CardFilter(), NotCommentFilter())
-async def komaru_cards_function(msg: Message, dialog_manager: DialogManager):
-    await msg.reply("Пожалуйста перейдите в чат для использования бота!")
-
-
 @text_triggers_router.message(F.text.casefold().startswith("сменить ник".casefold()))
 async def change_nickname(message: types.Message, dialog_manager: DialogManager):
     user_id = message.from_user.id
