@@ -67,7 +67,7 @@ async def create_and_send_invoice(callback: CallbackQuery, dialog_manager: Dialo
         markup = await payment_crypto_keyboard(invoice.invoice_id, invoice.bot_invoice_url)
 
         response = (
-            f"Премиум активируется после подтверждения оплаты. Реквизиты: {invoice.bot_invoice_url}"
+            f"Премиум активируется после подтверждения оплаты. Реквизиты: {invoice.bot_invoice_url}\n\nЦена: 0.70 USDT"
         )
         await callback.bot.delete_message(callback.message.chat.id, callback.message.message_id)
         await callback.bot.send_message(callback.from_user.id, response, reply_markup=markup)
