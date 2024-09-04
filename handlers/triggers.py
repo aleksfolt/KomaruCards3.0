@@ -26,7 +26,7 @@ import validators
 text_triggers_router = Router()
 
 
-@text_triggers_router.message(CardFilter(), NotCommentFilter())
+@text_triggers_router.message(CardFilter(), NotCommentFilter(), RateLimitFilter(1.0))
 async def komaru_cards_function(msg: Message, dialog_manager: DialogManager):
     user_id = msg.from_user.id
     user_nickname = msg.from_user.first_name
