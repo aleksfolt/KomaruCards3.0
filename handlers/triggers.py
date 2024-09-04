@@ -148,20 +148,27 @@ async def random_cat(isPro: bool):
     cats = await get_all_cards()
     random_number = random.randint(1, 95)
 
-    if 0 <= random_number <= 19 and isPro:
-        eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Легендарная"]
-    elif 0 <= random_number <= 14:
-        eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Легендарная"]
-    elif 20 <= random_number <= 34 and isPro:
-        eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Мифическая"]
-    elif 15 <= random_number <= 29:
-        eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Мифическая"]
-    elif 30 <= random_number <= 49:
-        eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Сверхредкая"]
-    elif 50 <= random_number <= 95:
-        eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Редкая"]
+    if isPro:
+        if 0 <= random_number <= 25:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Легендарная"]
+        elif 26 <= random_number <= 45:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Мифическая"]
+        elif 46 <= random_number <= 65:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Сверхредкая"]
+        elif 66 <= random_number <= 95:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Редкая"]
     else:
-        eligible_cats = ['чиво']
+        if 0 <= random_number <= 14:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Легендарная"]
+        elif 15 <= random_number <= 29:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Мифическая"]
+        elif 30 <= random_number <= 49:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Сверхредкая"]
+        elif 50 <= random_number <= 95:
+            eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Редкая"]
+    
     if eligible_cats:
         chosen_cat = random.choice(eligible_cats)
         return chosen_cat
+    else:
+        return 'чиво'
