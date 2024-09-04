@@ -9,7 +9,7 @@ async def start_kb(msg: Message):
     builder = InlineKeyboardBuilder()
     builder.row(types.InlineKeyboardButton(
         text="➡️ Добавить в группу",
-        url="https://t.me/KomaruCardsBot?startgroup=iris&admin=change_info+restrict_members+"
+        url="https://t.me/KomaruCardsBot?startgroup=komaru&admin=change_info+restrict_members+"
             "delete_messages+pin_messages+invite_users"))
     return builder.as_markup()
 
