@@ -1,12 +1,17 @@
 from aiogram_dialog import DialogManager
-from database.user import get_all_users, get_premium_users
-from database.group import get_all_groups
+from sqlalchemy import func, select
+from sqlalchemy.ext.asyncio import AsyncSession
+from database.models import User, Group
+from loader import engine
 
 
 async def get_statistics(dialog_manager: DialogManager, **kwargs):
-    total_users = len(await get_all_users())
-    premium_users = len(await get_premium_users())
-    total_groups = len(await get_all_groups())
+    async with AsyncSession(engine) as session:
+        total_users = await session.scalar(select(func.count()).select_from(User))
+        premium_users = await session.scalar(
+            select(func.count()).select_from(User).where(User.premium_expire.is_not(None))
+        )
+        total_groups = await session.scalar(select(func.count()).select_from(Group))
 
     return {
         "total_users": total_users,
