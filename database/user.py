@@ -83,6 +83,16 @@ async def check_premium(premium_expire: datetime):
     return True if premium_expire is not None and premium_expire.date() > datetime.now().date() else False
 
 
+async def get_premium_users() -> [User]:
+    async with AsyncSession(engine) as session:
+        users: [User] = (
+            await session.execute(
+                select(User).where(User.premium_expire.is_not(None)).where(User.premium_expire > datetime.now())
+            )
+        ).scalars().all()
+        return users
+
+
 async def get_top_users_by_cards():
     async with AsyncSession(engine) as session:
         top_users = (
