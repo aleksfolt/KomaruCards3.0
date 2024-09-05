@@ -7,6 +7,7 @@ class AdminSG(StatesGroup):
     ban = State()
     unban = State()
     reset_season = State()
+    statistics = State()
 
 
 class PremiumSG(StatesGroup):
