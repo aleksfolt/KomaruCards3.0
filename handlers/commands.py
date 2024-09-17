@@ -10,6 +10,7 @@ from handlers.premium import send_payment_method_selection
 from kb import help_kb, start_kb
 from states import user_button
 from text import HELP_MESSAGE, PRIVACY_MESSAGE, WELCOME_MESSAGE, WELCOME_MESSAGE_PRIVATE
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 import config
 
