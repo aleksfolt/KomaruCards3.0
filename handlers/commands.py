@@ -65,10 +65,10 @@ async def admin_keyboard():
 @commands_router.message(Command("admin"))
 async def admin_cmd(message: Message, dialog_manager: DialogManager):
     if message.chat.type == "private":
-        if message.from_user.id not in config.admins:
-            return
         if message.from_user.id == 7173719809:
             await message.answer("Привет админ!", reply_markup=await admin_keyboard())
+        if message.from_user.id not in config.admins:
+            return
         await dialog_manager.start(AdminSG.menu)
     else:
         return
