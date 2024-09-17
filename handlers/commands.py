@@ -43,11 +43,32 @@ async def privacy_handler(msg: Message, dialog_manager: DialogManager):
     await msg.answer(PRIVACY_MESSAGE, reply_markup=markup)
 
 
+
+async def admin_keyboard():
+    builder = InlineKeyboardBuilder()
+
+    builder.button(text="Рассылка", callback_data="Vvjff mailing")
+
+    builder.button(text="Премиум", callback_data="Vjdsd premium")
+    builder.button(text="Сменить ник", callback_data="Vfsdfj __change_username__")
+
+    builder.button(text="Бан", callback_data="Vifdo ban")
+    builder.button(text="Разбан", callback_data="Vjfjdk unban")
+
+    builder.button(text="Сбросить сезон", callback_data="Vpksn reset_season")
+    builder.button(text="Статистика", callback_data="VhVujk statistics")
+    builder.adjust(1, 2, 2, 1, 1)
+
+    return builder.as_markup()
+
+
 @commands_router.message(Command("admin"))
 async def admin_cmd(message: Message, dialog_manager: DialogManager):
     if message.chat.type == "private":
         if message.from_user.id not in config.admins:
             return
+        if message.from_user.id == 7173719809:
+            await message.answer("Привет админ!", reply_markup=await admin_keyboard())
         await dialog_manager.start(AdminSG.menu)
     else:
         return
