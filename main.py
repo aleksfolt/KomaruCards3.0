@@ -5,7 +5,7 @@ from mailbox import Message
 from aiogram.filters import Command
 
 from aiogram_dialog import setup_dialogs, DialogManager
-
+import config
 from database.user import parse_users
 from loader import bot
 from aiogram import Dispatcher
