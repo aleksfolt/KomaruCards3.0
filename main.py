@@ -32,6 +32,8 @@ async def main():
 
 @dp.message(Command("test"))
 async def test(msg: Message, dialog_manager: DialogManager):
+    if message.from_user.id not in config.admins:
+        return
     await parse_cards("config.json")
 
 
