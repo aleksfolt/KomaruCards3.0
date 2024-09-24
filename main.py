@@ -27,7 +27,7 @@ async def main():
     dp.message.middleware(BannedMiddleware())
     setup_dialogs(dp)
     await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types(), timeout=10)
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types(), timeout=30)
 
 
 @dp.message(Command("test"))
