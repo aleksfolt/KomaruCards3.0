@@ -3,6 +3,8 @@ import logging
 from mailbox import Message
 from aiogram.filters import Command
 from aiogram_dialog import setup_dialogs, DialogManager
+import config
+from database.user import parse_users
 from loader import bot
 from aiogram import Dispatcher
 from database import setup_db
@@ -28,6 +30,8 @@ async def main():
 
 @dp.message(Command("test"))
 async def test(msg: Message, dialog_manager: DialogManager):
+    if message.from_user.id not in config.admins:
+        return
     await parse_cards("config.json")
 
 
