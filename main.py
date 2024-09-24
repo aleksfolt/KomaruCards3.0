@@ -22,7 +22,6 @@ logging.basicConfig(level=logging.INFO)
 async def main():
     await setup_db()
     dp.include_routers(commands_router, profile_router,  text_triggers_router, premium_router, dialogs_router)
-    dp.message.middleware(ThrottlingMiddleware())
     dp.message.middleware(RegisterMiddleware())
     dp.message.middleware(BannedMiddleware())
     setup_dialogs(dp)
