@@ -56,3 +56,20 @@ class MailingSG(StatesGroup):
     get_media = State()
     send_message = State()
     error = State()
+
+
+class CreatePromoSG(StatesGroup):
+    get_name = State()
+    get_action = State()
+    get_premium_days = State()
+    get_channel = State()
+    get_expiration_time = State()
+    get_activation_limit = State()
+    accept = State()
+    all_ok = State()
+
+
+class DeletePromoSG(StatesGroup):
+    get_name = State()
+    accept = State()
+    all_ok = State()

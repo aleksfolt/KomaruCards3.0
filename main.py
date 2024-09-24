@@ -1,12 +1,8 @@
 import asyncio
 import logging
 from mailbox import Message
-
 from aiogram.filters import Command
-
 from aiogram_dialog import setup_dialogs, DialogManager
-
-from database.user import parse_users
 from loader import bot
 from aiogram import Dispatcher
 from database import setup_db

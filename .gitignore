@@ -1,6 +1,2 @@
-komaru_user_cards.json
-user_group_data.json
-promo.json
-premium_users.json
 .env
-users
+/async_alembic/

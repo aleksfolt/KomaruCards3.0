@@ -1,15 +1,12 @@
 import json
-from datetime import date, datetime, timedelta
 from typing import Dict
-
 from sqlalchemy import desc, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.sql.functions import count, func
-
-from database.models import User
+from database.models import Promo, User
 from loader import engine
-
 from datetime import datetime, timedelta
+from .promo import add_activation
 
 
 async def create_user(telegram_id: int, username: str):
@@ -41,9 +38,13 @@ async def set_love_card(telegram_id: int, love_card_id: int):
 
 
 async def update_last_get(telegram_id: int):
+    await set_last_get(telegram_id, datetime.now())
+
+
+async def set_last_get(telegram_id: int, time: datetime):
     async with AsyncSession(engine) as session:
         user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()
-        user.last_usage = datetime.now()
+        user.last_usage = time
         await session.commit()
 
 
@@ -108,6 +109,7 @@ async def get_top_users_by_cards():
             top += [[i, icon, top_user.nickname, len(top_user.cards), top_user.telegram_id]]
             i += 1
         return top
+
 
 async def get_top_users_by_points():
     async with (AsyncSession(engine) as session):
@@ -230,3 +232,47 @@ async def parse_users(users_file: str, premium_file: str):
                                    all_points=all_points, premium_expire=premium_expire)
                     session.add(botUser)
         await session.commit()
+
+
+class IsAlreadyResetException(Exception):
+    pass
+
+
+async def promo_use(telegram_id: int, promo: Promo):
+    async with (AsyncSession(engine) as session):
+        user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))
+                      ).scalar_one_or_none()
+        if user.expired_promo_codes:
+            user.expired_promo_codes += [promo.code]
+        else:
+            user.expired_promo_codes = [promo.code]
+        match promo.action:
+            case "reset_cd":
+                if await check_last_get(
+                        user.last_usage, check_premium(user.premium_expire)
+                ):
+                    raise IsAlreadyResetException
+                user.last_usage = datetime.now() - timedelta(hours=3)
+            case "add_premium":
+                await add_premium(user.telegram_id, timedelta(days=promo.days_add))
+            case _:
+                raise ValueError("Неизвестное действие")
+        await add_activation(promo.code)
+
+        await session.commit()
+
+
+async def check_last_get(last_get: datetime, is_premium: bool):
+    if last_get is None:
+        return True
+    time_difference = datetime.now() - last_get
+    if is_premium:
+        if time_difference >= timedelta(hours=3):
+            return True
+        else:
+            return False
+    else:
+        if time_difference >= timedelta(hours=4):
+            return True
+        else:
+            return False

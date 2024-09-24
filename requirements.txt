@@ -1,0 +1,11 @@
+sqlalchemy~=2.0.35
+asyncpg
+aiogram-dialog
+aiogram~=3.13.1
+python-dotenv~=1.0.1
+emoji~=2.12.1
+validators~=0.34.0
+alembic~=1.13.2
+aiogram_dialog~=2.2.0
+aiocryptopay~=0.4.5
+cachetools~=5.5.0
