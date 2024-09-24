@@ -1,22 +1,27 @@
 import os
 import random
 import sys
+
+from aiogram.enums import ChatMemberStatus
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+
+from database.promo import get_promo
+
 sys.path.insert(0, sys.path[0] + "..")
 import re
 from datetime import datetime, timedelta
-
 import emoji
 import sqlalchemy
 from aiogram import F, Router, types
-from aiogram.types import Message
+from aiogram.types import InlineKeyboardButton, Message
 from aiogram_dialog import DialogManager
 
 sys.path.append(os.path.realpath('.'))
 
 from database.cards import get_all_cards
 from database.models import Card
-from database.user import add_card, add_points, change_username, check_premium, get_user, update_last_get, \
-    is_nickname_taken
+from database.user import add_card, add_points, change_username, check_last_get, check_premium, get_user, \
+    promo_use, update_last_get, is_nickname_taken, IsAlreadyResetException
 from filters.FloodWait import RateLimitFilter
 from filters import CardFilter, NotCommentFilter
 from loader import bot
@@ -121,27 +126,45 @@ async def change_nickname(message: types.Message, dialog_manager: DialogManager)
         await message.reply("Никнейм не может быть пустым. Укажите значение после команды.")
 
 
+@text_triggers_router.message(F.text.casefold().startswith("промо".casefold()))
+async def activate_promo(message: types.Message, dialog_manager: DialogManager):
+    promocode = message.text.casefold().split('промо'.casefold(), 1)[1].strip()
+    promo = await get_promo(promocode)
+    if promo is None:
+        await message.answer("Промокод не найден")
+        return
+    if promo.is_expiated_counts():
+        await message.answer("Количество активаций промокода превышено.")
+        return
+    if promo.is_expiated_time():
+        await message.answer("Промокод истек.")
+        return
+    try:
+        channel_member = await message.bot.get_chat_member(promo.channel_id, message.from_user.id)
+    except Exception:
+        await message.answer("Возникла ошибки при проверке подписки на канал спонсора")
+    if channel_member.status not in ["creator", "administrator", "member", "restricted"]:
+        await message.answer("Вы не подписаны на канал спонсора, подпишитесь",
+                             reply_markup=InlineKeyboardBuilder(
+                                 InlineKeyboardButton(text="Канал спонсора", url=promo.link)
+                             ).as_markup())
+        return
+    user = await get_user(message.from_user.id)
+    if user.check_promo_expired(promocode):
+        await message.answer("Вы уже использовали этот промокод")
+        return
+    try:
+        await promo_use(user.telegram_id, promo)
+        await message.answer("Промокод активирован успешно")
+    except IsAlreadyResetException:
+        await message.answer("Таймер уже на нуле, заберите карточку, а затем активируйте промокод.")
+    
+
 def is_nickname_allowed(nickname):
     for symbol in forbidden_symbols:
         if re.search(re.escape(symbol), nickname, re.IGNORECASE):
             return False
     return True
-
-
-async def check_last_get(last_get: datetime, is_premium: bool):
-    if last_get is None:
-        return True
-    time_difference = datetime.now() - last_get
-    if is_premium:
-        if time_difference >= timedelta(hours=3):
-            return True
-        else:
-            return False
-    else:
-        if time_difference >= timedelta(hours=4):
-            return True
-        else:
-            return False
 
 
 async def random_cat(isPro: bool):

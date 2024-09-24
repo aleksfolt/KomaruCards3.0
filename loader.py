@@ -11,8 +11,7 @@ bot = Bot(token=config.BOT_TOKEN)
 url = URL.create(
     drivername="postgresql+asyncpg",
     username="postgres",
-    host="127.0.0.1",
-    port=5433,
+    host="localhost",
     database="komaru_cards",
     password="QwerTY",
 )

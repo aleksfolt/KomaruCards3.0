@@ -1,4 +1,5 @@
 import datetime
+from typing import List
 
 from sqlalchemy import ARRAY, BigInteger, DateTime, Integer, VARCHAR, Boolean
 from sqlalchemy.ext.asyncio import AsyncAttrs
@@ -24,6 +25,17 @@ class User(Base):
     card_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     premium_expire: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
     is_banned: Mapped[bool] = mapped_column(Boolean, default=False)
+    expired_promo_codes: Mapped[List[str]] = mapped_column(MutableList.as_mutable(ARRAY(VARCHAR(80))),
+                                                           default=[], nullable=True)
+
+    def check_promo_expired(self, promo: str) -> bool:
+        """
+        Checks if promo code is expired for user.
+
+        :param promo: str promo code
+        :return: bool
+        """
+        return promo in self.expired_promo_codes if self.expired_promo_codes is not None else False
 
 
 class Group(Base):
@@ -42,3 +54,23 @@ class Card(Base):
     photo: Mapped[str] = mapped_column(VARCHAR(160), nullable=False)
     points: Mapped[int] = mapped_column(Integer, nullable=False)
     rarity: Mapped[str] = mapped_column(VARCHAR(80), nullable=False)
+
+
+class Promo(Base):
+    __tablename__ = 'promo_codes'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    code: Mapped[str] = mapped_column(VARCHAR(80), nullable=False, unique=True)
+    link: Mapped[str] = mapped_column(VARCHAR(160), nullable=False)
+    channel_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+    action: Mapped[str] = mapped_column(VARCHAR(80), nullable=False)
+    days_add: Mapped[int] = mapped_column(Integer, nullable=True)
+    expiration_time: Mapped[datetime.date] = mapped_column(DateTime, nullable=False)
+    activation_limit: Mapped[int] = mapped_column(Integer, nullable=False)
+    activation_counts: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+
+    def is_expiated_counts(self):
+        return self.activation_counts >= self.activation_limit
+
+    def is_expiated_time(self):
+        return datetime.datetime.now() >= self.expiration_time
