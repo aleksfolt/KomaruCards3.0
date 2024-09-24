@@ -22,11 +22,12 @@ logging.basicConfig(level=logging.INFO)
 async def main():
     await setup_db()
     dp.include_routers(commands_router, profile_router,  text_triggers_router, premium_router, dialogs_router)
+    dp.message.middleware(ThrottlingMiddleware())
     dp.message.middleware(RegisterMiddleware())
     dp.message.middleware(BannedMiddleware())
     setup_dialogs(dp)
     await bot.delete_webhook(drop_pending_updates=True)
-    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types(), timeout=30)
+    await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
 
 
 @dp.message(Command("test"))
