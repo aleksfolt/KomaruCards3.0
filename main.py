@@ -1,18 +1,20 @@
 import asyncio
 import logging
-from mailbox import Message
-from aiogram.filters import Command
-from aiogram_dialog import setup_dialogs, DialogManager
-import config
-from database.user import parse_users
-from loader import bot
+
 from aiogram import Dispatcher
+from aiogram import types
+from aiogram.filters import Command
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram_dialog import DialogManager, setup_dialogs
+
+import config
 from database import setup_db
 from database.cards import parse_cards
-from aiogram.fsm.storage.memory import MemoryStorage
-from handlers import commands_router, profile_router, text_triggers_router, premium_router
-from middlewares import RegisterMiddleware, ThrottlingMiddleware, BannedMiddleware
+from handlers import commands_router, premium_router, profile_router, text_triggers_router
 from handlers.admin_dialogs import dialogs_router
+from loader import bot
+from middlewares import BannedMiddleware, RegisterMiddleware, ThrottlingMiddleware
+
 dp = Dispatcher(storage=MemoryStorage())
 logging.basicConfig(level=logging.INFO)
 
@@ -29,8 +31,8 @@ async def main():
 
 
 @dp.message(Command("test"))
-async def test(msg: Message, dialog_manager: DialogManager):
-    if message.from_user.id not in config.admins:
+async def test(msg: types.Message, dialog_manager: DialogManager):
+    if msg.from_user.id not in config.admins:
         return
     await parse_cards("config.json")
 
