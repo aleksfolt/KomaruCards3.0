@@ -2,6 +2,7 @@ import time
 from aiogram.filters import BaseFilter
 from aiogram.types import Message
 
+
 class RateLimitFilter(BaseFilter):
     def __init__(self, limit: float, expiration_time: float = 3600):
         self.limit = limit

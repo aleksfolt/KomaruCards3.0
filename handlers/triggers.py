@@ -2,7 +2,8 @@ import os
 import random
 import sys
 
-from aiogram.enums import ChatMemberStatus
+from aiogram.enums import ChatMemberStatus, ContentType
+from aiogram.filters import ChatMemberUpdatedFilter
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from database.promo import get_promo
@@ -13,17 +14,17 @@ from datetime import datetime, timedelta
 import emoji
 import sqlalchemy
 from aiogram import F, Router, types
-from aiogram.types import InlineKeyboardButton, Message
+from aiogram.types import ChatMemberUpdated, InlineKeyboardButton, Message
 from aiogram_dialog import DialogManager
 
 sys.path.append(os.path.realpath('.'))
-
+from aiogram.filters import IS_MEMBER, IS_NOT_MEMBER
 from database.cards import get_all_cards
 from database.models import Card
 from database.user import add_card, add_points, change_username, check_last_get, check_premium, get_user, \
     promo_use, update_last_get, is_nickname_taken, IsAlreadyResetException
 from filters.FloodWait import RateLimitFilter
-from filters import CardFilter, NotCommentFilter
+from filters import CardFilter, IsThisBotFilter, NotCommentFilter
 from loader import bot
 from text import forbidden_symbols
 import validators
@@ -158,7 +159,24 @@ async def activate_promo(message: types.Message, dialog_manager: DialogManager):
         await message.answer("Промокод активирован успешно")
     except IsAlreadyResetException:
         await message.answer("Таймер уже на нуле, заберите карточку, а затем активируйте промокод.")
-    
+
+
+@text_triggers_router.my_chat_member(ChatMemberUpdatedFilter(IS_NOT_MEMBER >> IS_MEMBER))
+async def on_bot_added(update: ChatMemberUpdated):
+    await update.answer(
+        """👋 Добро пожаловать в мир Комару!
+
+🌟 Собирайте уникальные карточки Комару и соревнуйтесь с 
+другими игроками.
+
+Как начать:
+1. Напишите "Комару" для получения первой карточки.
+2. Используйте команду /help 
+для информации о доступных командах.
+
+Удачи в нашей вселенной!"""
+    )
+
 
 def is_nickname_allowed(nickname):
     for symbol in forbidden_symbols:
@@ -189,7 +207,7 @@ async def random_cat(isPro: bool):
             eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Сверхредкая"]
         elif 50 <= random_number <= 95:
             eligible_cats = [cat[0] for cat in cats if cat[0].rarity == "Редкая"]
-    
+
     if eligible_cats:
         chosen_cat = random.choice(eligible_cats)
         return chosen_cat
