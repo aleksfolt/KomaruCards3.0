@@ -16,7 +16,7 @@ from loader import bot
 from middlewares import BannedMiddleware, RegisterMiddleware, ThrottlingMiddleware
 
 dp = Dispatcher(storage=MemoryStorage())
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARNING)
 
 
 async def main():
