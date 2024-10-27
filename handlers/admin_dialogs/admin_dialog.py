@@ -40,18 +40,18 @@ admin_dialog = Dialog(
             Start(Const("Рассылка"), id="mailing", state=MailingSG.choose_type),
             Start(Const("Статистика"), id="statistics", state=AdminSG.statistics),
         ),
-        Row(
-            Start(Const("Премиум"), id="premium", state=PremiumSG.premium_get_id),
-            Start(Const("Сменить ник"), id="__change_username__", state=ChangeUsernameSG.get_id),
-        ),
-        Row(
-            Start(Const("Бан"), id="ban", state=BanSG.get_id),
-            Start(Const("Разбан"), id="unban", state=UnBanSG.get_id),
-        ),
-        Row(
-            Start(Const("Создать промо"), id="create_promo", state=CreatePromoSG.get_name),
-            Start(Const("Удалить промо"), id="delete_promo", state=DeletePromoSG.get_name),
-        ),
+        # Row(
+        #     Start(Const("Премиум"), id="premium", state=PremiumSG.premium_get_id),
+        #     Start(Const("Сменить ник"), id="__change_username__", state=ChangeUsernameSG.get_id),
+        # ),
+        # Row(
+        #     Start(Const("Бан"), id="ban", state=BanSG.get_id),
+        #     Start(Const("Разбан"), id="unban", state=UnBanSG.get_id),
+        # ),
+        # Row(
+        #     Start(Const("Создать промо"), id="create_promo", state=CreatePromoSG.get_name),
+        #     Start(Const("Удалить промо"), id="delete_promo", state=DeletePromoSG.get_name),
+        # ),
         Start(Const("Сбросить сезон"), id="reset_season", state=DelSeasonSG.accept_del),
 
         state=AdminSG.menu,

@@ -24,7 +24,7 @@ from database.models import Card
 from database.user import add_card, add_points, change_username, check_last_get, check_premium, get_user, \
     promo_use, update_last_get, is_nickname_taken, IsAlreadyResetException
 from filters.FloodWait import RateLimitFilter
-from filters import CardFilter, IsThisBotFilter, NotCommentFilter
+from filters import CardFilter, NotCommentFilter
 from loader import bot
 from text import forbidden_symbols
 import validators
