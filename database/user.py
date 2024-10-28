@@ -8,12 +8,12 @@ from database.models import User
 from loader import engine
 
 
-async def create_user(telegram_id: int, username: str):
+async def create_user(telegram_id: int, username: str, in_pm: bool = False) -> User:
     async with AsyncSession(engine) as session:
         if username:
-            user = User(telegram_id=telegram_id, nickname=username)
+            user = User(telegram_id=telegram_id, nickname=username, in_pm=in_pm)
         else:
-            user = User(telegram_id=telegram_id)
+            user = User(telegram_id=telegram_id, in_pm=in_pm)
         session.add(user)
         await session.commit()
         user = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one()

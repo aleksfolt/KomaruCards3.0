@@ -7,6 +7,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram_dialog import DialogManager
 
 import config
+from database.user import get_user, in_pm_change
 from handlers.admin_dialogs import AdminSG
 from handlers.premium import send_payment_method_selection
 from kb import help_kb, start_kb
@@ -24,6 +25,9 @@ async def handler_start_command(msg: Message, command: CommandObject):
         await send_payment_method_selection(msg, msg.from_user.id, unique_id)
     else:
         if msg.chat.type == "private":
+            user = await get_user(msg.from_user.id)
+            if user.in_pm is None or user.in_pm is False:
+                await in_pm_change(msg.from_user.id, True)
             markup = await start_kb(msg)
             await msg.answer(WELCOME_MESSAGE_PRIVATE, reply_markup=markup, parse_mode='HTML')
         else:

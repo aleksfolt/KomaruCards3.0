@@ -111,7 +111,7 @@ admin_dialog = Dialog(
     Window(
         Const("Хотите обновить статус пользователей и групп?\n"
               "Во время этого пользователи смогут увидеть \"Печатает\" от бота\n"
-              "Это необходимо для исправления ошибот фиксирования пользователя"),
+              "Это необходимо для исправления ошибок фиксирования статуса"),
         Button(Const("Обновить"), id="update_users", on_click=update_users_clicked),
         SwitchTo(Const('Назад'), state=AdminSG.menu, id="back_to_menu"),
         state=AdminSG.update_users
