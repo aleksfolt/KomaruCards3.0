@@ -2,7 +2,6 @@ import os
 import random
 import sys
 
-from aiogram.enums import ChatMemberStatus, ContentType
 from aiogram.filters import ChatMemberUpdatedFilter
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 

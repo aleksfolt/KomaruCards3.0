@@ -1,7 +1,9 @@
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+import random
+
 from aiogram import types
 from aiogram.types import Message
-import random
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+
 from states import user_button
 
 

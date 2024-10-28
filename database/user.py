@@ -1,9 +1,11 @@
+from datetime import datetime, timedelta
 from typing import Dict
+
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
+
 from database.models import User
 from loader import engine
-from datetime import datetime, timedelta
 
 
 async def create_user(telegram_id: int, username: str):
@@ -29,7 +31,7 @@ async def get_user_with_pm_count():
         user_count = (await session.execute(
             select(func.count(User.id))
             .where(User.in_pm == True))
-                         ).scalar_one_or_none()
+                      ).scalar_one_or_none()
         return user_count
 
 
@@ -114,6 +116,12 @@ async def unban_user(telegram_id: int):
 
 
 async def get_all_users_ids() -> [User]:
+    async with AsyncSession(engine) as session:
+        users: Dict[User] = (await session.execute(select(User.telegram_id))).scalars().all()
+        return users
+
+
+async def get_all_users_with_pm_ids() -> [User]:
     async with AsyncSession(engine) as session:
         users: Dict[User] = (await session.execute(select(User.telegram_id).where(User.in_pm == True))).scalars().all()
         return users

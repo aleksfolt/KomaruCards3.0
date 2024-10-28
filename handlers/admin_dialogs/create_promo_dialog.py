@@ -4,10 +4,11 @@ from aiogram import Bot
 from aiogram.types import CallbackQuery, Message, User
 from aiogram_dialog import Dialog, DialogManager, Window
 from aiogram_dialog.widgets.input import ManagedTextInput, MessageInput, TextInput
-from aiogram_dialog.widgets.kbd import Back, Button, Cancel, Next, Calendar, SwitchTo
+from aiogram_dialog.widgets.kbd import Back, Button, Calendar, Cancel, Next, SwitchTo
 from aiogram_dialog.widgets.text import Const, Format
-from .admin_states import CreatePromoSG
+
 from database.promo import create_promo, get_promo
+from .admin_states import CreatePromoSG
 
 
 async def get_promo_name(message: Message, widget: ManagedTextInput, dialog_manager: DialogManager, data: str):

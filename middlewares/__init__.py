@@ -1,4 +1,4 @@
-from .register_middlewares import RegisterMiddleware
-from .throttling_middlewares import ThrottlingMiddleware
 from .admin_middleware import AdminMiddleware
 from .banned_middleware import BannedMiddleware
+from .register_middlewares import RegisterMiddleware
+from .throttling_middlewares import ThrottlingMiddleware

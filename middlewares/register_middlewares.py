@@ -1,8 +1,10 @@
-from typing import Callable, Dict, Any, Awaitable
+from typing import Any, Awaitable, Callable, Dict
+
 from aiogram import BaseMiddleware
 from aiogram.types import Message, TelegramObject
-from database.user import get_user, create_user
-from database.group import get_group, create_group
+
+from database.group import create_group, get_group
+from database.user import create_user, get_user
 
 
 class RegisterMiddleware(BaseMiddleware):

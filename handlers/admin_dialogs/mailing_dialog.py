@@ -2,11 +2,12 @@ from aiogram import Bot
 from aiogram.enums import ContentType
 from aiogram.types import Animation, CallbackQuery, Message, PhotoSize, User, Video
 from aiogram_dialog import ChatEvent, Dialog, DialogManager, Window
-from aiogram_dialog.widgets.input import TextInput, MessageInput
+from aiogram_dialog.widgets.input import MessageInput, TextInput
 from aiogram_dialog.widgets.kbd import Back, Button, Cancel, Checkbox, ManagedCheckbox, Next, Row
 from aiogram_dialog.widgets.text import Const
-from .admin_states import MailingSG
+
 from utils.mailing import mailing
+from .admin_states import MailingSG
 
 
 async def check_changed(event: ChatEvent, checkbox: ManagedCheckbox, manager: DialogManager):
@@ -58,6 +59,7 @@ async def send_clicked(callback: CallbackQuery, button: Button, manager: DialogM
     media = manager.dialog_data["media"]
     message_text = manager.find("message_text").get_value()
     await mailing(groups, private, media, message_text, callback.bot)
+    await manager.done()
 
 
 mailing_dialog = Dialog(

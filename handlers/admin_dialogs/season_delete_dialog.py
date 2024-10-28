@@ -3,8 +3,9 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram_dialog import Dialog, DialogManager, Window
 from aiogram_dialog.widgets.kbd import Button, Cancel, Next, Row
 from aiogram_dialog.widgets.text import Const, Format
-from .admin_states import DelSeasonSG
+
 from database.user import clear_season
+from .admin_states import DelSeasonSG
 
 
 async def accept_clicked(callback: CallbackQuery, button: Button, manager: DialogManager):

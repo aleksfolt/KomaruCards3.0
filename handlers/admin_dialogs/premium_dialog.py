@@ -2,15 +2,15 @@ from datetime import date, datetime
 
 from aiogram import Bot
 from aiogram.types import CallbackQuery, Message, User
-
-from .admin_states import PremiumSG
 from aiogram_dialog import Dialog, DialogManager, Window
 from aiogram_dialog.widgets.input import TextInput
-from aiogram_dialog.widgets.kbd import Back, Button, Cancel, Calendar
+from aiogram_dialog.widgets.kbd import Back, Button, Calendar, Cancel
 from aiogram_dialog.widgets.text import Const, Format
+
 from database.models import User as BotUser
-from database.user import get_user
 from database.premium import premium_from_datetime
+from database.user import get_user
+from .admin_states import PremiumSG
 
 
 async def on_get_id(message: Message, widget, dialog_manager: DialogManager, telegram_id: int):

@@ -1,5 +1,3 @@
-from typing import Dict
-
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -29,11 +27,17 @@ async def get_group_with_bot_count():
         group_count = (await session.execute(
             select(func.count(Group.id))
             .where(Group.in_group == True))
-                         ).scalar_one_or_none()
+                       ).scalar_one_or_none()
         return group_count
 
 
 async def get_all_groups_ids() -> [Group]:
+    async with AsyncSession(engine) as session:
+        groups = (await session.execute(select(Group.group_id))).scalars().all()
+        return groups
+
+
+async def get_all_groups_with_bot_ids() -> [Group]:
     async with AsyncSession(engine) as session:
         groups = (await session.execute(select(Group.group_id).where(Group.in_group == True))).scalars().all()
         return groups

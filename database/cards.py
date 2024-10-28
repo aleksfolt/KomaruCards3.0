@@ -2,8 +2,9 @@ import json
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from .models import Card
+
 from loader import engine
+from .models import Card
 
 
 async def parse_cards(filename):

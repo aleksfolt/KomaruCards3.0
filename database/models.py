@@ -1,7 +1,7 @@
 import datetime
 from typing import List
 
-from sqlalchemy import ARRAY, BigInteger, Date, DateTime, Integer, VARCHAR, Boolean
+from sqlalchemy import ARRAY, BigInteger, Boolean, Date, DateTime, Integer, VARCHAR
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -31,7 +31,7 @@ class User(Base):
                                                       default=datetime.datetime.now().date())
     last_activity: Mapped[datetime.date] = mapped_column(Date,
                                                          nullable=True, default=datetime.datetime.now().date())
-    inpm: Mapped[bool] = mapped_column(Boolean)
+    in_pm: Mapped[bool] = mapped_column(Boolean)
 
     def check_promo_expired(self, promo: str) -> bool:
         """

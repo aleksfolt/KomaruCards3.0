@@ -5,6 +5,7 @@ class AdminSG(StatesGroup):
     menu = State()
     reset_season = State()
     statistics = State()
+    update_users = State()
     export = State()
 
 

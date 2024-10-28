@@ -12,7 +12,6 @@ from loader import crypto
 from states import user_button
 from text import PREMIUM_TEXT, responses
 
-
 premium_router = Router()
 
 

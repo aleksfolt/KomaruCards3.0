@@ -3,7 +3,8 @@ import asyncio
 from aiogram import Bot
 from aiogram.types import Animation, PhotoSize, Video
 
-from database import get_all_groups_ids, get_all_users_ids
+from database.group import get_all_groups_with_bot_ids
+from database.user import get_all_users_with_pm_ids
 
 
 async def mailing(send_on_groups: bool, send_dm: bool, media, text, bot: Bot):
@@ -26,7 +27,7 @@ async def mailing(send_on_groups: bool, send_dm: bool, media, text, bot: Bot):
 
 
 async def send_all_groups(mode: str, coroutine, media, text, bot: Bot):
-    for group_id in await get_all_groups_ids():
+    for group_id in await get_all_groups_with_bot_ids():
         try:
             if mode == "media":
                 await coroutine(group_id, media.file_id, caption=text, parse_mode='Markdown')
@@ -37,7 +38,7 @@ async def send_all_groups(mode: str, coroutine, media, text, bot: Bot):
 
 
 async def send_all_users(mode: str, coroutine, media, text, bot: Bot):
-    for user_id in await get_all_users_ids():
+    for user_id in await get_all_users_with_pm_ids():
         try:
             if mode == "media":
                 await coroutine(user_id, media.file_id, caption=text, parse_mode='Markdown')

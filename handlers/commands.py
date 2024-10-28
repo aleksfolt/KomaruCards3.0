@@ -1,21 +1,19 @@
 import random
 
 from aiogram import Router
-from aiogram.filters import Command, CommandStart, CommandObject
+from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.types import Message
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram_dialog import DialogManager
 
+import config
 from handlers.admin_dialogs import AdminSG
 from handlers.premium import send_payment_method_selection
 from kb import help_kb, start_kb
 from states import user_button
 from text import HELP_MESSAGE, PRIVACY_MESSAGE, WELCOME_MESSAGE, WELCOME_MESSAGE_PRIVATE
-from aiogram.utils.keyboard import InlineKeyboardBuilder
-
-import config
 
 commands_router = Router()
-
 
 
 @commands_router.message(CommandStart())
@@ -42,7 +40,6 @@ async def help_handler(msg: Message, dialog_manager: DialogManager):
 async def privacy_handler(msg: Message, dialog_manager: DialogManager):
     markup = await help_kb(msg)
     await msg.answer(PRIVACY_MESSAGE, reply_markup=markup)
-
 
 
 async def admin_keyboard():

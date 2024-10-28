@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import func, select, and_
+from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import Group, User
@@ -32,4 +32,4 @@ async def get_groups_count_last_active_by_date(data: datetime.date) -> int:
     async with AsyncSession(engine) as session:
         return (await session.execute(select(func.count(Group.id))
                                       .where(Group.last_activity == data))
-                                      ).scalar_one()
+                ).scalar_one()

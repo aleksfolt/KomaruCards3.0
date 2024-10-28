@@ -4,9 +4,10 @@ from aiogram_dialog import Dialog, DialogManager, Window
 from aiogram_dialog.widgets.input import ManagedTextInput, TextInput
 from aiogram_dialog.widgets.kbd import Button, Cancel
 from aiogram_dialog.widgets.text import Format
-from .admin_states import DeletePromoSG
+
 from database.models import Promo
 from database.promo import delete_promo, get_promo
+from .admin_states import DeletePromoSG
 
 
 async def get_promo_name(message: Message, widget: ManagedTextInput, dialog_manager: DialogManager, data: str):
@@ -28,6 +29,7 @@ async def accept_clicked(callback: CallbackQuery, button: Button, dialog_manager
     promo = dialog_manager.dialog_data["promo"]
     await delete_promo(promo.code)
     await dialog_manager.switch_to(DeletePromoSG.all_ok)
+
 
 delete_promo_dialog = Dialog(
     Window(
