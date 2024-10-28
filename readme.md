@@ -1,9 +1,10 @@
-# Komaru Card Bot
-
+# [Komaru Card Bot v1.0.0](https://github.com/aleksfolt/KomaruCards3.0)
 ## Запуск бота
+![14.mp4](md/14.gif)
 1. Создайте и активируйте venv
 ```bash
 python3 -m venv venv
+source venv/bin/activate
  ```
 2. Установите зависимости:
 ```bash
