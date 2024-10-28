@@ -6,7 +6,8 @@ from aiogram.enums import ChatMemberStatus, ContentType
 from aiogram.filters import ChatMemberUpdatedFilter
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from database.promo import get_promo
+from database.group import in_group_change
+from database.promo import get_promo, promo_use
 
 sys.path.insert(0, sys.path[0] + "..")
 import re
@@ -21,8 +22,9 @@ sys.path.append(os.path.realpath('.'))
 from aiogram.filters import IS_MEMBER, IS_NOT_MEMBER
 from database.cards import get_all_cards
 from database.models import Card
-from database.user import add_card, add_points, change_username, check_last_get, check_premium, get_user, \
-    promo_use, update_last_get, is_nickname_taken, IsAlreadyResetException
+from database.user import add_card, add_points, change_username, check_last_get, get_user, \
+    in_pm_change, update_last_get, is_nickname_taken, IsAlreadyResetException
+from database.premium import check_premium
 from filters.FloodWait import RateLimitFilter
 from filters import CardFilter, NotCommentFilter
 from loader import bot
@@ -163,6 +165,10 @@ async def activate_promo(message: types.Message, dialog_manager: DialogManager):
 
 @text_triggers_router.my_chat_member(ChatMemberUpdatedFilter(IS_NOT_MEMBER >> IS_MEMBER))
 async def on_bot_added(update: ChatMemberUpdated):
+    if update.chat.type == "private":
+        await in_pm_change(update.from_user.id, True)
+    elif update.chat.type in ["group", "supergroup"]:
+        await in_group_change(update.chat.id, True)
     await update.answer(
         """👋 Добро пожаловать в мир Комару!
 
@@ -176,6 +182,14 @@ async def on_bot_added(update: ChatMemberUpdated):
 
 Удачи в нашей вселенной!"""
     )
+
+
+@text_triggers_router.my_chat_member(ChatMemberUpdatedFilter(IS_MEMBER >> IS_NOT_MEMBER))
+async def on_bot_deleted(update: ChatMemberUpdated):
+    if update.chat.type == "private":
+        await in_pm_change(update.from_user.id, False)
+    elif update.chat.type in ["group", "supergroup"]:
+        await in_group_change(update.chat.id, False)
 
 
 def is_nickname_allowed(nickname):

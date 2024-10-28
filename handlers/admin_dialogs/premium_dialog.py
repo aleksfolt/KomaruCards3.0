@@ -9,7 +9,8 @@ from aiogram_dialog.widgets.input import TextInput
 from aiogram_dialog.widgets.kbd import Back, Button, Cancel, Calendar
 from aiogram_dialog.widgets.text import Const, Format
 from database.models import User as BotUser
-from database.user import get_user, premium_from_datetime
+from database.user import get_user
+from database.premium import premium_from_datetime
 
 
 async def on_get_id(message: Message, widget, dialog_manager: DialogManager, telegram_id: int):

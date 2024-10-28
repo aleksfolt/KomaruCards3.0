@@ -9,8 +9,9 @@ from sqlalchemy import func
 
 from database.cards import get_all_cards, get_card
 from database.models import Card, User
-from database.user import check_premium, get_me_on_top, get_top_users_by_all_points, get_top_users_by_cards, \
-    get_top_users_by_points, get_user, set_love_card
+from database.user import get_user, set_love_card
+from database.top import get_me_on_top, get_top_users_by_all_points, get_top_users_by_cards, get_top_users_by_points
+from database.premium import check_premium
 from filters import NotCommentFilter, ProfileFilter
 from kb import cards_kb, get_card_navigation_keyboard, profile_kb, top_kb
 from loader import bot

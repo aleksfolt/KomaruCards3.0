@@ -6,7 +6,7 @@ from aiogram import F, Router, types
 from aiogram.types import CallbackQuery, LabeledPrice
 from aiogram_dialog import DialogManager
 
-from database.user import add_premium
+from database.premium import add_premium
 from kb import payment_crypto_keyboard, payment_keyboard, premium_keyboard
 from loader import crypto
 from states import user_button

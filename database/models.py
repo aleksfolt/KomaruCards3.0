@@ -1,7 +1,7 @@
 import datetime
 from typing import List
 
-from sqlalchemy import ARRAY, BigInteger, DateTime, Integer, VARCHAR, Boolean
+from sqlalchemy import ARRAY, BigInteger, Date, DateTime, Integer, VARCHAR, Boolean
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -27,6 +27,11 @@ class User(Base):
     is_banned: Mapped[bool] = mapped_column(Boolean, default=False)
     expired_promo_codes: Mapped[List[str]] = mapped_column(MutableList.as_mutable(ARRAY(VARCHAR(80))),
                                                            default=[], nullable=True)
+    created_at: Mapped[datetime.date] = mapped_column(Date, nullable=False,
+                                                      default=datetime.datetime.now().date())
+    last_activity: Mapped[datetime.date] = mapped_column(Date,
+                                                         nullable=True, default=datetime.datetime.now().date())
+    inpm: Mapped[bool] = mapped_column(Boolean)
 
     def check_promo_expired(self, promo: str) -> bool:
         """
@@ -44,6 +49,10 @@ class Group(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     group_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
     title: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
+    added_at: Mapped[datetime.date] = mapped_column(Date, nullable=False, default=datetime.datetime.now().date())
+    last_activity: Mapped[datetime.date] = mapped_column(Date,
+                                                         nullable=False, default=datetime.datetime.now().date())
+    in_group: Mapped[bool] = mapped_column(Boolean, default=True)
 
 
 class Card(Base):

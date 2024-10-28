@@ -9,3 +9,5 @@ alembic~=1.13.2
 aiogram_dialog~=2.2.0
 aiocryptopay~=0.4.5
 cachetools~=5.5.0
+asyncio~=3.4.3
+flyerapi~=1.1.0

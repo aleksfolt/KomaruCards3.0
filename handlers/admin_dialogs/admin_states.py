@@ -3,11 +3,9 @@ from aiogram.fsm.state import State, StatesGroup
 
 class AdminSG(StatesGroup):
     menu = State()
-    mailing = State()
-    ban = State()
-    unban = State()
     reset_season = State()
     statistics = State()
+    export = State()
 
 
 class PremiumSG(StatesGroup):

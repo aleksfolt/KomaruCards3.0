@@ -1,13 +1,15 @@
+
 from aiocryptopay import AioCryptoPay, Networks
 from aiogram import Bot
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession, create_async_engine
 import config
+from flyerapi import Flyer
 
 
 bot = Bot(token=config.BOT_TOKEN)
 
-
+flyer = Flyer(config.FLYER_TOKEN)
 url = URL.create(
     drivername="postgresql+asyncpg",
     username="postgres",
