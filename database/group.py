@@ -31,9 +31,9 @@ async def get_group_with_bot_count():
         return group_count
 
 
-async def get_all_groups_ids() -> [Group]:
+async def get_all_groups_ids(offset: int = 0, limit: int = None) -> [Group]:
     async with AsyncSession(engine) as session:
-        groups = (await session.execute(select(Group.group_id))).scalars().all()
+        groups = (await session.execute(select(Group.group_id).limit(limit).offset(offset))).scalars().all()
         return groups
 
 
@@ -48,3 +48,8 @@ async def in_group_change(group_id: int, status: bool) -> None:
         group: Group = (await session.execute(select(Group).where(Group.group_id == group_id))).scalar_one_or_none()
         group.in_group = status
         await session.commit()
+
+async def get_group_count():
+    async with AsyncSession(engine) as session:
+        result = await session.execute(select(func.count(Group.id)))
+        return result.scalar_one()

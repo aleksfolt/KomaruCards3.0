@@ -13,7 +13,7 @@ from database.statistic import get_groups_count_created_by_date, get_groups_coun
     get_users_count_last_active_by_date
 from database.user import get_all_users_with_pm_ids, get_user_with_pm_count
 from handlers.admin_dialogs.admin_states import AdminSG, DelSeasonSG, MailingSG
-from utils.check_users_and_groups import check_in_groups, check_pm_users
+from utils.check_users_and_groups import check_in_groups, check_pm_users, run_check
 
 
 async def message_to_mailing_handler(message: Message, message_input: Message, manager: DialogManager):
@@ -71,8 +71,7 @@ async def get_statistics(dialog_manager: DialogManager, **kwargs):
 
 
 async def update_users_clicked(callback: CallbackQuery, button: Button, manager: DialogManager):
-    await asyncio.create_task(check_pm_users())
-    await asyncio.create_task(check_in_groups())
+    await run_check()
     await manager.switch_to(AdminSG.menu)
 
 
@@ -83,7 +82,6 @@ admin_dialog = Dialog(
             Start(Const("Рассылка"), id="mailing", state=MailingSG.choose_type),
             Start(Const("Статистика"), id="statistics", state=AdminSG.statistics),
         ),
-        Start(Const("Обновить"), id="update_users", state=AdminSG.update_users),
         Start(Const("Сбросить сезон"), id="reset_season", state=DelSeasonSG.accept_del),
 
         state=AdminSG.menu,
@@ -107,13 +105,5 @@ admin_dialog = Dialog(
         Button(Const("Чаты"), id="export_chats", on_click=export_clicked),
         Button(Const("Пользователи"), id="export_users", on_click=export_clicked),
         state=AdminSG.export
-    ),
-    Window(
-        Const("Хотите обновить статус пользователей и групп?\n"
-              "Во время этого пользователи смогут увидеть \"Печатает\" от бота\n"
-              "Это необходимо для исправления ошибок фиксирования статуса"),
-        Button(Const("Обновить"), id="update_users", on_click=update_users_clicked),
-        SwitchTo(Const('Назад'), state=AdminSG.menu, id="back_to_menu"),
-        state=AdminSG.update_users
     )
 )

@@ -115,9 +115,9 @@ async def unban_user(telegram_id: int):
         return
 
 
-async def get_all_users_ids() -> [User]:
+async def get_all_users_ids(offset: int = 0, limit: int = None) -> [User]:
     async with AsyncSession(engine) as session:
-        users: Dict[User] = (await session.execute(select(User.telegram_id))).scalars().all()
+        users: Dict[User] = (await session.execute(select(User.telegram_id).limit(limit).offset(offset))).scalars().all()
         return users
 
 
@@ -152,3 +152,8 @@ async def in_pm_change(telegram_id: int, status: bool) -> None:
         user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()
         user.in_pm = status
         await session.commit()
+
+async def get_user_count():
+    async with AsyncSession(engine) as session:
+        result = await session.execute(select(func.count(User.telegram_id)))
+        return result.scalar_one()
