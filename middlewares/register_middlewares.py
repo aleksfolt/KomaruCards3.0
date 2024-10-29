@@ -18,8 +18,9 @@ class RegisterMiddleware(BaseMiddleware):
         user = await get_user(event.from_user.id)
         if user is None:
             in_pm = True if event.chat.type == "private" else False
-            await create_user(event.from_user.id, event.from_user.username, in_pm)
+            data["user"] = await create_user(event.from_user.id, event.from_user.username, in_pm)
         else:
+            data["user"] = user
             if event.chat.type == "private":
                 await update_last_activity(event.from_user.id)
         if event.chat.type in ["group", "supergroup"]:

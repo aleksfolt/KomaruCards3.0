@@ -12,8 +12,8 @@ from database.statistic import get_groups_count_created_by_date, get_groups_coun
     get_users_count_created_by_date, \
     get_users_count_last_active_by_date
 from database.user import get_all_users_with_pm_ids, get_user_with_pm_count
-from handlers.admin_dialogs.admin_states import AdminSG, DelSeasonSG, MailingSG
-from utils.check_users_and_groups import check_in_groups, check_pm_users, run_check
+from handlers.admin_dialogs.admin_states import AdminSG, DelSeasonSG, MailingSG, AddAdminSG
+from utils.check_users_and_groups import run_check
 
 
 async def message_to_mailing_handler(message: Message, message_input: Message, manager: DialogManager):
@@ -82,6 +82,9 @@ admin_dialog = Dialog(
             Start(Const("Рассылка"), id="mailing", state=MailingSG.choose_type),
             Start(Const("Статистика"), id="statistics", state=AdminSG.statistics),
         ),
+        Row(
+            Start(Const("Добавить админа"), id="add_admin", state=AddAdminSG.get_id),
+        ),
         Start(Const("Сбросить сезон"), id="reset_season", state=DelSeasonSG.accept_del),
 
         state=AdminSG.menu,
@@ -105,5 +108,10 @@ admin_dialog = Dialog(
         Button(Const("Чаты"), id="export_chats", on_click=export_clicked),
         Button(Const("Пользователи"), id="export_users", on_click=export_clicked),
         state=AdminSG.export
+    ),
+    Window(
+        Const("Управление ссылками"),
+
+        state=AdminSG.choose_ref_action
     )
 )

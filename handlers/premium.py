@@ -80,7 +80,6 @@ async def create_and_send_invoice(callback: CallbackQuery, dialog_manager: Dialo
 @premium_router.callback_query(F.data.startswith("verify_payment"))
 async def verify_payment(call, dialog_manager: DialogManager):
     parts = call.data.split('_')
-    print(parts)
     if len(parts) < 3:
         await call.bot.send_message(call.message.chat.id, "Ошибка в данных платежа.")
         return
@@ -103,7 +102,6 @@ async def verify_payment(call, dialog_manager: DialogManager):
 
 async def get_invoice_status(invoice_id):
     try:
-        print(invoice_id)
         invoice = await crypto.get_invoices(invoice_ids=int(invoice_id))
         return invoice.status
     except Exception as e:

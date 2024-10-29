@@ -107,6 +107,14 @@ async def ban_user(telegram_id: int):
         return
 
 
+async def upgrade_user(telegram_id: int):
+    async with AsyncSession(engine) as session:
+        user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()
+        user.status = "ADMIN"
+        await session.commit()
+        return
+
+
 async def unban_user(telegram_id: int):
     async with AsyncSession(engine) as session:
         user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()

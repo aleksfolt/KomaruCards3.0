@@ -7,6 +7,7 @@ class AdminSG(StatesGroup):
     statistics = State()
     update_users = State()
     export = State()
+    choose_ref_action = State()
 
 
 class PremiumSG(StatesGroup):
@@ -18,6 +19,14 @@ class PremiumSG(StatesGroup):
 
 
 class BanSG(StatesGroup):
+    get_id = State()
+    error = State()
+    user_is_banned = State()
+    accept = State()
+    all_ok = State()
+
+
+class AddAdminSG(StatesGroup):
     get_id = State()
     error = State()
     user_is_banned = State()

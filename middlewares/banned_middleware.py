@@ -13,6 +13,9 @@ class BannedMiddleware(BaseMiddleware):
             event: TelegramObject,
             data: Dict[str, Any]
     ) -> Any:
-        user = await get_user(event.from_user.id)
+        if "user" in data:
+            user = data["user"]
+        else:
+            user = await get_user(event.from_user.id)
         if not user.is_banned:
             return await handler(event, data)

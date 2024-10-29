@@ -158,7 +158,6 @@ async def show_cards(callback: types.CallbackQuery, dialog_manager: DialogManage
         rarity_cards = []
         for cat in cats:
             if cat[0].id in user.cards and cat[0].rarity.startswith(rarity):
-                print(cat[0])
                 rarity_cards.append(cat[0])
 
         if rarity_cards:
@@ -199,7 +198,6 @@ async def navigate_cards(callback: types.CallbackQuery):
         rarity_cards = []
         for cat in cats:
             if cat[0].id in user.cards and cat[0].rarity.startswith(rarity):
-                print(cat[0])
                 rarity_cards.append(cat[0])
 
         if 0 <= new_index < len(rarity_cards):

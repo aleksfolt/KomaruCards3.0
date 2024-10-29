@@ -25,14 +25,17 @@ class User(Base):
     card_count: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     premium_expire: Mapped[datetime.datetime] = mapped_column(DateTime, nullable=True)
     is_banned: Mapped[bool] = mapped_column(Boolean, default=False)
-    expired_promo_codes: Mapped[List[str]] = mapped_column(MutableList.as_mutable(ARRAY(VARCHAR(80))),
-                                                           default=[], nullable=True)
-    created_at: Mapped[datetime.date] = mapped_column(Date, nullable=False,
-                                                      default=datetime.datetime.now().date())
-    last_activity: Mapped[datetime.date] = mapped_column(Date,
-                                                         nullable=True, default=datetime.datetime.now().date())
+    expired_promo_codes: Mapped[List[str]] = mapped_column(
+        MutableList.as_mutable(ARRAY(VARCHAR(80))), default=[], nullable=True
+    )
+    created_at: Mapped[datetime.date] = mapped_column(
+        Date, nullable=False, default=datetime.datetime.now().date()
+    )
+    last_activity: Mapped[datetime.date] = mapped_column(
+        Date, nullable=True, default=datetime.datetime.now().date()
+    )
     in_pm: Mapped[bool] = mapped_column(Boolean)
-    # status: Mapped[str] = mapped_column(VARCHAR(40), nullable=True, default="USER")
+    status: Mapped[str] = mapped_column(VARCHAR(40), nullable=False, default="USER", server_default="USER")
 
     def check_promo_expired(self, promo: str) -> bool:
         """
@@ -51,8 +54,9 @@ class Group(Base):
     group_id: Mapped[int] = mapped_column(BigInteger, unique=True, nullable=False)
     title: Mapped[str] = mapped_column(VARCHAR(100), nullable=False)
     added_at: Mapped[datetime.date] = mapped_column(Date, nullable=False, default=datetime.datetime.now().date())
-    last_activity: Mapped[datetime.date] = mapped_column(Date,
-                                                         nullable=False, default=datetime.datetime.now().date())
+    last_activity: Mapped[datetime.date] = mapped_column(
+        Date, nullable=False, default=datetime.datetime.now().date()
+    )
     in_group: Mapped[bool] = mapped_column(Boolean, default=True)
 
 

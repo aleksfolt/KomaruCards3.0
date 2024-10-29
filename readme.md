@@ -10,7 +10,7 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-3. Создайте и заполните файл config.yaml
+3. Создайте и заполните файл config.yaml\
 ```yaml
 bot:
   telegram:
