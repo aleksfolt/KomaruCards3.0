@@ -1,4 +1,4 @@
-# [Komaru Card Bot v1.0.0](https://github.com/aleksfolt/KomaruCards3.0)
+# [Komaru Cards Bot](https://github.com/aleksfolt/KomaruCards3.0)
 ## Запуск бота
 ![14.mp4](md/14.gif)
 1. Создайте и активируйте venv
