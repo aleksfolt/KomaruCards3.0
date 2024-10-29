@@ -12,6 +12,8 @@ class NotCommentFilter(BaseFilter):
 
     async def __call__(self, message: Message) -> bool:
         first_message: Message = await self.check_first_message(message)
+        if first_message is None:
+            return True
         if first_message.chat.type != "channel":
             return True
         else:

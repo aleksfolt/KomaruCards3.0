@@ -5,8 +5,7 @@ from aiogram.filters import Command, CommandObject, CommandStart
 from aiogram.types import Message
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram_dialog import DialogManager
-
-import config
+import loader
 from database.user import get_user, in_pm_change
 from handlers.admin_dialogs import AdminSG
 from handlers.premium import send_payment_method_selection
@@ -69,7 +68,7 @@ async def admin_cmd(message: Message, dialog_manager: DialogManager):
     if message.chat.type == "private":
         if message.from_user.id == 851455143:
             await message.answer("Привет админ!", reply_markup=await admin_keyboard())
-        if message.from_user.id not in config.admins:
+        if message.from_user.id not in loader.admins:
             return
         await dialog_manager.start(AdminSG.menu)
     else:

@@ -32,6 +32,7 @@ class User(Base):
     last_activity: Mapped[datetime.date] = mapped_column(Date,
                                                          nullable=True, default=datetime.datetime.now().date())
     in_pm: Mapped[bool] = mapped_column(Boolean)
+    # status: Mapped[str] = mapped_column(VARCHAR(40), nullable=True, default="USER")
 
     def check_promo_expired(self, promo: str) -> bool:
         """

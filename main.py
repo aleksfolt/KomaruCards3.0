@@ -7,7 +7,7 @@ from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import DialogManager, setup_dialogs
 
-import config
+import loader
 from database import setup_db
 from database.cards import parse_cards
 from handlers import commands_router, premium_router, profile_router, text_triggers_router
@@ -32,7 +32,7 @@ async def main():
 
 @dp.message(Command("test"))
 async def test(msg: types.Message, dialog_manager: DialogManager):
-    if msg.from_user.id not in config.admins:
+    if msg.from_user.id not in loader.admins:
         return
     await parse_cards("config.json")
 

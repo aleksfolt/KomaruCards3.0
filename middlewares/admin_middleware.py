@@ -3,7 +3,7 @@ from typing import Any, Awaitable, Callable, Dict
 from aiogram import BaseMiddleware
 from aiogram.types import Message, TelegramObject
 
-from config import admins
+from loader import admins
 
 
 class AdminMiddleware(BaseMiddleware):

@@ -10,17 +10,23 @@ source venv/bin/activate
 ```bash
 pip install -r requirements.txt
 ```
-3. Подключите бд (например PostgreSQL) (сейчас это в loader.py, но в будущем это будет в config.yaml)
-```python
-from sqlalchemy import URL 
-
-url = URL.create(
-    drivername="postgresql+asyncpg",
-    username="postgres",
-    host="localhost",
-    database="komaru_cards",
-    password="postgres",
-)
+3. Создайте и заполните файл config.yaml
+```yaml
+bot:
+  telegram:
+    token: "token"
+  cryptoPay:
+    token: "token"
+  flyer:
+    token: "token"
+  admins: [77000]
+database:
+  driver: "postgresql+asyncpg"
+  host: "localhost"
+  port: 5432
+  database: "komaru_cards"
+  user: "postgres"
+  password: "postgres"
 ```
 4. Запустите бота
 ```bash
@@ -50,3 +56,4 @@ FROM groups;
 
 
 ```
+
