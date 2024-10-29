@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -49,7 +51,15 @@ async def in_group_change(group_id: int, status: bool) -> None:
         group.in_group = status
         await session.commit()
 
+
 async def get_group_count():
     async with AsyncSession(engine) as session:
         result = await session.execute(select(func.count(Group.id)))
         return result.scalar_one()
+
+
+async def update_last_activity_group(telegram_id: int):
+    async with AsyncSession(engine) as session:
+        group: Group = (await session.execute(select(Group).where(Group.group_id == telegram_id))).scalar_one_or_none()
+        group.last_activity = datetime.now().date()
+        await session.commit()

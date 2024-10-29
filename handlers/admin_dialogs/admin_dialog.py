@@ -60,11 +60,11 @@ async def get_statistics(dialog_manager: DialogManager, **kwargs):
         "created_users_today": created_users_today,
         "created_users_yesterday": created_users_yesterday,
         "last_active_users_today": last_active_users_today,
-        "last_active_users_yesterday": last_active_users_yesterday,
+        "last_active_users_yesterday": last_active_users_yesterday + last_active_users_today,
         "groups_added_today": groups_added_today,
         "groups_added_yesterday": groups_added_yesterday,
         "last_active_groups_today": last_active_groups_today,
-        "last_active_groups_yesterday": last_active_groups_yesterday,
+        "last_active_groups_yesterday": last_active_groups_yesterday + last_active_groups_today,
         "total_users": total_users,
         "total_groups": total_active_groups
     }
