@@ -138,6 +138,7 @@ async def get_all_users_with_pm_ids() -> [User]:
 class IsAlreadyResetException(Exception):
     pass
 
+
 async def check_last_get(last_get: datetime, is_premium: bool):
     if last_get is None:
         return True
@@ -171,4 +172,11 @@ async def update_last_activity(telegram_id: int):
     async with AsyncSession(engine) as session:
         user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()
         user.last_activity = datetime.now().date()
+        await session.commit()
+
+
+async def update_last_bonus_get(telegram_id: int):
+    async with AsyncSession(engine) as session:
+        user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()
+        user.last_bonus_get = datetime.now()
         await session.commit()

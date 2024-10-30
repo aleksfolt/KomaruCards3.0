@@ -81,3 +81,8 @@ class DeletePromoSG(StatesGroup):
     get_name = State()
     accept = State()
     all_ok = State()
+
+
+class AddRefLinkSG(StatesGroup):
+    get_link = State()
+    all_ok = State()

@@ -13,3 +13,4 @@ asyncio~=3.4.3
 flyerapi~=1.1.0
 PyYAML~=6.0.2
 pydantic~=2.9.2
+schedule~=1.2.2

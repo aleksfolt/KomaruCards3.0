@@ -11,9 +11,12 @@ from .season_delete_dialog import season_delete_dialog
 from .unban_dialog import unban_dialog
 from .ban_dialog import ban_dialog
 from .add_admin_dialog import add_admin_dialog
+from .ref_links_add_dialog import ref_links_add_dialog
 dialogs_router = Router()
 
-dialogs_router.include_routers(admin_dialog, premium_dialog, ban_dialog, unban_dialog, season_delete_dialog,
-                               change_nickname_dialog, mailing_dialog, promo_dialog, delete_promo_dialog, add_admin_dialog)
+dialogs_router.include_routers(
+    admin_dialog, premium_dialog, ban_dialog, unban_dialog, season_delete_dialog, change_nickname_dialog,
+    mailing_dialog, promo_dialog, delete_promo_dialog,add_admin_dialog, ref_links_add_dialog
+)
 dialogs_router.message.middleware(AdminMiddleware())
 dialogs_router.callback_query.middleware(AdminMiddleware())

@@ -36,15 +36,26 @@ class User(Base):
     )
     in_pm: Mapped[bool] = mapped_column(Boolean)
     status: Mapped[str] = mapped_column(VARCHAR(40), nullable=False, default="USER", server_default="USER")
+    last_bonus_get: Mapped[datetime.datetime] = mapped_column(
+        DateTime, nullable=True
+    )
 
     def check_promo_expired(self, promo: str) -> bool:
-        """
-        Checks if promo code is expired for user.
-
-        :param promo: str promo code
-        :return: bool
-        """
         return promo in self.expired_promo_codes if self.expired_promo_codes is not None else False
+
+    def check_bonus_available(self) -> bool:
+        if self.last_bonus_get is None:
+            return True
+        return datetime.datetime.now() >= self.last_bonus_get + datetime.timedelta(hours=12)
+
+
+class App(Base):
+
+    __tablename__ = 'app'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    yesterday_users_active: Mapped[int] = mapped_column(Integer, nullable=True)
+    yesterday_groups_active: Mapped[int] = mapped_column(Integer, nullable=True)
 
 
 class Group(Base):
@@ -88,3 +99,11 @@ class Promo(Base):
 
     def is_expiated_time(self):
         return datetime.datetime.now() >= self.expiration_time
+
+
+class RefLink(Base):
+    __tablename__ = 'ref_links'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    code: Mapped[str] = mapped_column(VARCHAR(80), nullable=False, unique=True)
+    for_user_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
