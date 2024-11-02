@@ -1,12 +1,17 @@
+import logging
+
 from aiocryptopay import AioCryptoPay, Networks
 from aiogram import Bot
 from flyerapi import Flyer
 from sqlalchemy import URL
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncSession, create_async_engine
-from utils.config import settings, database
+
+from utils.config import database, settings
 
 admins = settings.admins
 bot = Bot(token=settings.telegram.token)
+
+logger = logging.getLogger("bot")
 
 flyer = Flyer(settings.flyer.token)
 url = URL.create(

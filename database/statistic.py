@@ -3,7 +3,7 @@ import datetime
 from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from database.models import Group, User, App
+from database.models import App, Group, User
 from loader import engine
 
 
@@ -72,4 +72,27 @@ async def create_app_if_not_exist() -> None:
             await session.commit()
 
 
+async def get_users_with_link_count(link: str) -> int:
+    async with AsyncSession(engine) as session:
+        return (await session.execute(select(func.count(User.id))
+                                      .where(User.from_link == link))
+                ).scalar_one()
 
+
+async def get_groups_with_link_count(link: str) -> int:
+    async with AsyncSession(engine) as session:
+        return (await session.execute(select(func.count(Group.id))
+                                      .where(Group.from_link == link))
+                ).scalar_one()
+
+
+async def get_all_groups_with_link(link: str):
+    async with AsyncSession(engine) as session:
+        return (await session.execute(select(Group.group_id)
+                                      .where(Group.from_link == link))
+                ).scalars().all()
+
+
+async def get_all_users_with_link(link: str):
+    async with AsyncSession(engine) as session:
+        return (await session.execute(select(User.telegram_id).where(User.from_link == link))).scalars().all()

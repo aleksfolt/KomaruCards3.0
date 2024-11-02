@@ -1,7 +1,7 @@
 import datetime
 from typing import List
 
-from sqlalchemy import ARRAY, BigInteger, Boolean, Date, DateTime, Integer, VARCHAR
+from sqlalchemy import ARRAY, BigInteger, Boolean, Date, DateTime, Integer, String, VARCHAR
 from sqlalchemy.ext.asyncio import AsyncAttrs
 from sqlalchemy.ext.mutable import MutableList
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
@@ -39,6 +39,7 @@ class User(Base):
     last_bonus_get: Mapped[datetime.datetime] = mapped_column(
         DateTime, nullable=True
     )
+    from_link: Mapped[str] = mapped_column(String, nullable=True, default=None)
 
     def check_promo_expired(self, promo: str) -> bool:
         return promo in self.expired_promo_codes if self.expired_promo_codes is not None else False
@@ -69,6 +70,7 @@ class Group(Base):
         Date, nullable=False, default=datetime.datetime.now().date()
     )
     in_group: Mapped[bool] = mapped_column(Boolean, default=True)
+    from_link: Mapped[str] = mapped_column(String, nullable=True, default=None)
 
 
 class Card(Base):
@@ -101,9 +103,16 @@ class Promo(Base):
         return datetime.datetime.now() >= self.expiration_time
 
 
+class BonusLink(Base):
+    __tablename__ = 'bonus_links'
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    code: Mapped[str] = mapped_column(VARCHAR(80), nullable=False, unique=True)
+    for_user_id: Mapped[int] = mapped_column(BigInteger, nullable=False)
+
+
 class RefLink(Base):
     __tablename__ = 'ref_links'
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
     code: Mapped[str] = mapped_column(VARCHAR(80), nullable=False, unique=True)
-    for_user_id: Mapped[int] = mapped_column(BigInteger, nullable=False)

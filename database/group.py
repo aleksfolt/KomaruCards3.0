@@ -63,3 +63,10 @@ async def update_last_activity_group(telegram_id: int):
         group: Group = (await session.execute(select(Group).where(Group.group_id == telegram_id))).scalar_one_or_none()
         group.last_activity = datetime.now().date()
         await session.commit()
+
+
+async def set_group_refer_code(group_id: int, code: str):
+    async with AsyncSession(engine) as session:
+        group: Group = (await session.execute(select(Group).where(Group.group_id == group_id))).scalar_one_or_none()
+        group.from_link = code
+        await session.commit()

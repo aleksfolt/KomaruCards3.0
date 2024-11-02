@@ -19,14 +19,22 @@ class RegisterMiddleware(BaseMiddleware):
         if user is None:
             in_pm = True if event.chat.type == "private" else False
             data["user"] = await create_user(event.from_user.id, event.from_user.username, in_pm)
+            created = True
         else:
             data["user"] = user
+            created = False
             if event.chat.type == "private":
                 await update_last_activity(event.from_user.id)
         if event.chat.type in ["group", "supergroup"]:
             if await get_group(event.chat.id) is None:
                 await create_group(event.chat.id, event.chat.title)
+                created = True
             else:
+                created = False
                 await update_last_activity_group(event.chat.id)
+        if type(event) == Message:
+            if event.text.startswith("/start" or "/startgroup"):
+                data["created"] = created
+                return await handler(event, data)
 
         return await handler(event, data)

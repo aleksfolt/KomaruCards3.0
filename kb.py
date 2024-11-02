@@ -2,10 +2,10 @@ import random
 
 from aiogram import types
 from aiogram.types import Message
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.utils.deep_linking import create_deep_link
+from aiogram.utils.keyboard import InlineKeyboardBuilder
 
-from database.ref_link import create_ref_link
+from database.bonus_link import create_bonus_link
 from states import user_button
 
 
@@ -142,7 +142,7 @@ async def subscribe_keyboard():
 
 async def get_bonus_keyboard(username: str, user_id: int):
     builder = InlineKeyboardBuilder()
-    link_code = (await create_ref_link(user_id)).code
+    link_code = (await create_bonus_link(user_id)).code
     link = create_deep_link(username, "start", f"bonus_{link_code}")
     builder.button(text="Получить бонус", url=link)
     return builder.as_markup()

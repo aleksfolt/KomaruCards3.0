@@ -1,4 +1,4 @@
-import asyncio
+import datetime
 import datetime
 import io
 
@@ -12,7 +12,7 @@ from database.statistic import get_groups_count_created_by_date, get_groups_coun
     get_users_count_created_by_date, \
     get_users_count_last_active_today, get_yesterday_groups_active, get_yesterday_users_active
 from database.user import get_all_users_with_pm_ids, get_user_with_pm_count
-from handlers.admin_dialogs.admin_states import AddRefLinkSG, AdminSG, DelSeasonSG, MailingSG, AddAdminSG
+from handlers.admin_dialogs.admin_states import AddAdminSG, AddRefLinkSG, AdminSG, DelSeasonSG, MailingSG, ViewRefLinkSG
 from utils.check_users_and_groups import run_check
 
 
@@ -80,7 +80,7 @@ admin_dialog = Dialog(
         ),
         Row(
             Start(Const("Добавить админа"), id="add_admin", state=AddAdminSG.get_id),
-            # SwitchTo(Const("Ссылки"), id="links", state=AdminSG.choose_ref_action),
+            SwitchTo(Const("Ссылки"), id="links", state=AdminSG.choose_ref_action),
         ),
         Start(Const("Сбросить сезон"), id="reset_season", state=DelSeasonSG.accept_del),
 
@@ -109,9 +109,9 @@ admin_dialog = Dialog(
     ),
     Window(
         Const("Управление ссылками"),
-        Start(Const("Просмотр ссылок"), id="check_links", state=AdminSG.choose_ref_action),
+        Start(Const("Просмотр ссылок"), id="check_links", state=ViewRefLinkSG.link_list),
         Start(Const("Добавить ссылку"), id="add_link", state=AddRefLinkSG.get_link),
         Back(Const('Назад')),
         state=AdminSG.choose_ref_action
-    )
+    ),
 )

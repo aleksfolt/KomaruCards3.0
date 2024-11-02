@@ -1,13 +1,13 @@
 import asyncio
-import threading
-from asyncio import Task
 import logging
-from aiogram.exceptions import TelegramForbiddenError
+from asyncio import Semaphore
+
 from aiogram.enums import ChatAction
+from aiogram.exceptions import TelegramForbiddenError
+
 from database.group import get_all_groups_ids, get_group_count, in_group_change
 from database.user import get_all_users_ids, get_user_count, in_pm_change
 from loader import bot
-from asyncio import Semaphore
 
 semaphore = Semaphore(10)
 

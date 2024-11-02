@@ -180,3 +180,10 @@ async def update_last_bonus_get(telegram_id: int):
         user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()
         user.last_bonus_get = datetime.now()
         await session.commit()
+
+
+async def set_user_refer_code(telegram_id: int, code: str):
+    async with AsyncSession(engine) as session:
+        user: User = (await session.execute(select(User).where(User.telegram_id == telegram_id))).scalar_one_or_none()
+        user.from_link = code
+        await session.commit()

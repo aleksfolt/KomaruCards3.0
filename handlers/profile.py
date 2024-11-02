@@ -134,7 +134,6 @@ async def show_cards_second(callback: types.CallbackQuery, dialog_manager: Dialo
                                    f"У вас собрано {collected_cards} из {total_cards} возможных\nВыберите редкость:",
                                    reply_markup=markup)
             if callback.message.chat.type in ["supergroup", "group"]:
-                print(callback.message.chat.type)
                 await bot.send_message(chat_id=callback.message.chat.id,
                                        text=f"{user_nickname}, карточки отправлены вам в личные сообщения!")
             else:

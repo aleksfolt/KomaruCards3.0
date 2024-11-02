@@ -8,7 +8,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 from database.group import in_group_change
 from database.promo import get_promo, promo_use
 from kb import get_bonus_keyboard
-import html
+
 sys.path.insert(0, sys.path[0] + "..")
 import re
 from datetime import datetime, timedelta
@@ -76,7 +76,8 @@ async def komaru_cards_function(msg: Message, dialog_manager: DialogManager):
         await bot.send_photo(
             msg.chat.id,
             photo=chosen_cat.photo,
-            caption=f"✨{markdown_decoration.unparse(msg.from_user.first_name)}, вы осмотрелись вокруг и снова увидели {chosen_cat.name}! "
+            caption=f"✨{markdown_decoration.unparse(msg.from_user.first_name)}, "
+                    f"вы осмотрелись вокруг и снова увидели {chosen_cat.name}! "
                     f"✨\nБудут начислены только очки.\n\n🎲 "
                     f"Редкость: {chosen_cat.rarity}\n💯 +{chosen_cat.points} очков.\n🌟 "
                     f"Всего поинтов: {user.points + int(chosen_cat.points)}\n\n"

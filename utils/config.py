@@ -1,6 +1,7 @@
-import yaml
-from pydantic import BaseModel, StrictStr, StrictInt
 from typing import List
+
+import yaml
+from pydantic import BaseModel, StrictInt, StrictStr
 
 
 class Telegram(BaseModel):
