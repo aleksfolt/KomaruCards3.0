@@ -28,14 +28,11 @@ async def main():
     await bot.delete_webhook(drop_pending_updates=True)
     dp.startup.register(on_startup)
     await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
-
-
-@dp.message(Command("test"))
-async def test(msg: types.Message, dialog_manager: DialogManager):
-    if msg.from_user.id not in loader.admins:
-        return
     await parse_cards("config.json")
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    try:
+       asyncio.run(main())
+    except KeyboardInterrupt:
+       print('Stopped')
