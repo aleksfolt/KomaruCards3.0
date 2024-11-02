@@ -43,5 +43,7 @@ async def test(msg: types.Message, dialog_manager: DialogManager):
 
 
 if __name__ == "__main__":
-
-    asyncio.run(main())
+    try:
+       asyncio.run(main())
+    except KeyboardInterrupt:
+       print('Stopped')
