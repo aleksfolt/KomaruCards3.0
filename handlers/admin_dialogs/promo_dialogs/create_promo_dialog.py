@@ -8,7 +8,7 @@ from aiogram_dialog.widgets.kbd import Back, Button, Calendar, Cancel, Next, Swi
 from aiogram_dialog.widgets.text import Const, Format
 
 from database.promo import create_promo, get_promo
-from .admin_states import CreatePromoSG
+from handlers.admin_dialogs.admin_states import CreatePromoSG
 
 
 async def get_promo_name(message: Message, widget: ManagedTextInput, dialog_manager: DialogManager, data: str):
@@ -100,7 +100,7 @@ async def accept_clicked(callback: CallbackQuery, button: Button, dialog_manager
         await dialog_manager.done()
 
 
-promo_dialog = Dialog(
+add_promo_dialog = Dialog(
     Window(
         Format("Введите название промокода"),
         TextInput(id="name", on_success=get_promo_name),

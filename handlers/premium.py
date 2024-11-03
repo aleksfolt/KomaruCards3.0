@@ -7,10 +7,10 @@ from aiogram.types import CallbackQuery, LabeledPrice
 from aiogram_dialog import DialogManager
 
 from database.premium import add_premium
-from kb import payment_crypto_keyboard, payment_keyboard, premium_keyboard
-from loader import crypto
-from states import user_button
-from text import PREMIUM_TEXT, responses
+from utils.kb import payment_crypto_keyboard, payment_keyboard, premium_keyboard
+from utils.loader import crypto
+from utils.states import user_button
+from data.text import PREMIUM_TEXT, responses
 
 premium_router = Router()
 

@@ -7,7 +7,7 @@ from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from database.group import in_group_change
 from database.promo import get_promo, promo_use
-from kb import get_bonus_keyboard
+from utils.kb import get_bonus_keyboard
 
 sys.path.insert(0, sys.path[0] + "..")
 import re
@@ -30,8 +30,8 @@ from database.premium import check_premium
 from middlewares import RegisterMiddleware
 from filters.FloodWait import RateLimitFilter
 from filters import CardFilter, NotCommentFilter
-from loader import bot
-from text import forbidden_symbols
+from utils.loader import bot
+from data.text import forbidden_symbols
 import validators
 
 

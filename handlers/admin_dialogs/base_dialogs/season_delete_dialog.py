@@ -5,7 +5,7 @@ from aiogram_dialog.widgets.kbd import Button, Cancel, Next, Row
 from aiogram_dialog.widgets.text import Const, Format
 
 from database.user import clear_season
-from .admin_states import DelSeasonSG
+from handlers.admin_dialogs.admin_states import DelSeasonSG
 
 
 async def accept_clicked(callback: CallbackQuery, button: Button, manager: DialogManager):

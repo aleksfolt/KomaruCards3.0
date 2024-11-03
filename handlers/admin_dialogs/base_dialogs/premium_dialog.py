@@ -10,7 +10,7 @@ from aiogram_dialog.widgets.text import Const, Format
 from database.models import User as BotUser
 from database.premium import premium_from_datetime
 from database.user import get_user
-from .admin_states import PremiumSG
+from handlers.admin_dialogs.admin_states import PremiumSG
 
 
 async def on_get_id(message: Message, widget, dialog_manager: DialogManager, telegram_id: int):

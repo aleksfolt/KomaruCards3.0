@@ -1,24 +1,16 @@
 from aiogram import Router
 
 from middlewares import AdminMiddleware
-from .add_admin_dialog import add_admin_dialog
-from .admin_dialog import admin_dialog, AdminSG
-from .ban_dialog import ban_dialog
-from .change_nickname_dialog import change_nickname_dialog
-from .create_promo_dialog import promo_dialog
-from .delete_promo_dialog import delete_promo_dialog
-from .mailing_dialog import mailing_dialog
-from .premium_dialog import premium_dialog
-from .ref_links_add_dialog import ref_links_add_dialog
-from .ref_links_view_dialog import view_links_dialog
-from .season_delete_dialog import season_delete_dialog
-from .unban_dialog import unban_dialog
+from .base_dialogs import base_dialogs
+from .ban_dialogs import ban_dialogs
+from .add_admin_dialogs import add_admin_dialogs
+from .promo_dialogs import promo_dialogs
+from .ref_link_dialogs import ref_link_dialogs
 
 dialogs_router = Router()
 
 dialogs_router.include_routers(
-    admin_dialog, premium_dialog, ban_dialog, unban_dialog, season_delete_dialog, change_nickname_dialog,
-    mailing_dialog, promo_dialog, delete_promo_dialog, add_admin_dialog, ref_links_add_dialog, view_links_dialog
+    base_dialogs, ban_dialogs, add_admin_dialogs, promo_dialogs, ref_link_dialogs,
 )
 dialogs_router.message.middleware(AdminMiddleware())
 dialogs_router.callback_query.middleware(AdminMiddleware())

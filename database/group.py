@@ -4,7 +4,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import Group
-from loader import engine
+from utils.loader import engine
 
 
 async def create_group(group_id: int, title: str) -> Group:

@@ -11,7 +11,7 @@ from aiogram_dialog.widgets.text import Const, Format
 from aiogram_dialog.widgets.text import Jinja
 
 from database.ref_link import create_ref_link, get_links, get_ref_link
-from .admin_states import AddRefLinkSG
+from handlers.admin_dialogs.admin_states import AddRefLinkSG
 
 
 def check_link(link: str) -> str:

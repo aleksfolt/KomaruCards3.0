@@ -7,7 +7,7 @@ from aiogram_dialog.widgets.kbd import Back, Button, Cancel, Checkbox, ManagedCh
 from aiogram_dialog.widgets.text import Const
 
 from utils.mailing import mailing
-from .admin_states import MailingSG
+from handlers.admin_dialogs.admin_states import MailingSG
 
 
 async def check_changed(event: ChatEvent, checkbox: ManagedCheckbox, manager: DialogManager):

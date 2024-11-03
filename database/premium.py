@@ -4,7 +4,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import User
-from loader import engine
+from utils.loader import engine
 
 
 async def check_premium(premium_expire: datetime):

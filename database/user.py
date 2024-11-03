@@ -5,7 +5,7 @@ from sqlalchemy import func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import User
-from loader import engine
+from utils.loader import engine
 
 
 async def create_user(telegram_id: int, username: str, in_pm: bool = False) -> User:

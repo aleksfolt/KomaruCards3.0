@@ -6,12 +6,12 @@ from aiogram.filters import Command
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram_dialog import DialogManager, setup_dialogs
 
-import loader
+from utils import loader
 from database import setup_db
 from database.cards import parse_cards
 from handlers import commands_router, premium_router, profile_router, text_triggers_router
 from handlers.admin_dialogs import dialogs_router
-from loader import bot
+from utils.loader import bot
 from middlewares import BannedMiddleware, RegisterMiddleware, ThrottlingMiddleware
 from utils.on_startup import on_startup
 
@@ -34,7 +34,7 @@ async def main():
 async def test(msg: types.Message, dialog_manager: DialogManager):
     if msg.from_user.id not in loader.admins:
         return
-    await parse_cards("config.json")
+    await parse_cards("data/config.json")
 
 
 if __name__ == "__main__":

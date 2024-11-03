@@ -4,7 +4,7 @@ from sqlalchemy.sql.functions import count
 
 from database.models import User
 from database.premium import check_premium
-from loader import engine
+from utils.loader import engine
 
 
 async def get_top_users_by_cards():

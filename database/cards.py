@@ -3,7 +3,7 @@ import json
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from loader import engine
+from utils.loader import engine
 from .models import Card
 
 

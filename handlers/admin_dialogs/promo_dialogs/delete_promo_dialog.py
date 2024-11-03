@@ -7,7 +7,7 @@ from aiogram_dialog.widgets.text import Format
 
 from database.models import Promo
 from database.promo import delete_promo, get_promo
-from .admin_states import DeletePromoSG
+from handlers.admin_dialogs.admin_states import DeletePromoSG
 
 
 async def get_promo_name(message: Message, widget: ManagedTextInput, dialog_manager: DialogManager, data: str):

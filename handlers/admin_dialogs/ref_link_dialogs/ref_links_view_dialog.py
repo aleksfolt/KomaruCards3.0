@@ -11,7 +11,7 @@ from aiogram_dialog.widgets.text import Const, Format, Jinja
 from database import get_all_groups_with_bot_ids
 from database.ref_link import delete_ref_link, get_all_links, get_links
 from database.statistic import get_all_users_with_link, get_groups_with_link_count, get_users_with_link_count
-from .admin_states import ViewRefLinkSG
+from handlers.admin_dialogs.admin_states import ViewRefLinkSG
 
 
 async def error(message: Message, dialog_: Any, manager: DialogManager, link_error: ValueError):

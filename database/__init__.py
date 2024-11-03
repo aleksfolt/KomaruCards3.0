@@ -1,6 +1,6 @@
 from database.group import get_all_groups_with_bot_ids
 from database.models import Base
-from loader import engine
+from utils.loader import engine
 
 
 async def setup_db():

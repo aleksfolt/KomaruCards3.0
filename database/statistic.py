@@ -4,7 +4,7 @@ from sqlalchemy import and_, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import App, Group, User
-from loader import engine
+from utils.loader import engine
 
 
 async def get_users_count_created_by_date(data: datetime.date) -> int:

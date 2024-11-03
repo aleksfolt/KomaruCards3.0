@@ -7,9 +7,10 @@ from aiogram.exceptions import TelegramForbiddenError
 
 from database.group import get_all_groups_ids, get_group_count, in_group_change
 from database.user import get_all_users_ids, get_user_count, in_pm_change
-from loader import bot
+from utils.loader import bot
 
 semaphore = Semaphore(10)
+
 
 async def check_pm_users():
     user_count = await get_user_count()
@@ -27,6 +28,7 @@ async def check_pm_users():
                 except Exception as e:
                     logging.info(e)
             await asyncio.sleep(0.01)
+
 
 async def check_in_groups():
     group_count = await get_group_count()
@@ -48,3 +50,8 @@ async def check_in_groups():
 
 async def run_check():
     await asyncio.gather(check_pm_users(), check_in_groups())
+
+
+logging.info("Updating started!")
+asyncio.run(run_check())
+logging.info("Updating finished!")

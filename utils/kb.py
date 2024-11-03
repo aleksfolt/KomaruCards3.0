@@ -6,7 +6,7 @@ from aiogram.utils.deep_linking import create_deep_link
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 from database.bonus_link import create_bonus_link
-from states import user_button
+from utils.states import user_button
 
 
 async def start_kb(msg: Message):

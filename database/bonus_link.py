@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import BonusLink
-from loader import engine
+from utils.loader import engine
 
 
 def generate_random_string(length=14):

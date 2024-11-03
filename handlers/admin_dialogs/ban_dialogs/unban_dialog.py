@@ -6,7 +6,7 @@ from aiogram_dialog.widgets.kbd import Back, Button, Cancel
 from aiogram_dialog.widgets.text import Const, Format
 
 from database.user import change_username, get_user, User as BotUser
-from .admin_states import ChangeUsernameSG
+from handlers.admin_dialogs.admin_states import ChangeUsernameSG
 
 
 async def on_get_id(message: Message, widget, dialog_manager: DialogManager, telegram_id: int):

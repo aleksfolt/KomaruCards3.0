@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from loader import engine
+from utils.loader import engine
 from .models import Promo, User
 from .premium import add_premium, check_premium
 from .user import check_last_get, IsAlreadyResetException

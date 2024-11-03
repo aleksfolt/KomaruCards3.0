@@ -14,12 +14,12 @@ from database.premium import check_premium
 from database.ref_link import get_ref_link
 from database.user import check_last_get, set_last_get
 from database.user import get_user, in_pm_change, set_user_refer_code, update_last_bonus_get
-from handlers.admin_dialogs import AdminSG
+from handlers.admin_dialogs.admin_states import AdminSG
 from handlers.premium import send_payment_method_selection
-from kb import check_subscribe_keyboard, help_kb, start_kb
-from loader import admins, flyer
-from states import user_button
-from text import HELP_MESSAGE, PRIVACY_MESSAGE, WELCOME_MESSAGE, WELCOME_MESSAGE_PRIVATE
+from utils.kb import check_subscribe_keyboard, help_kb, start_kb
+from utils.loader import admins, flyer
+from utils.states import user_button
+from data.text import HELP_MESSAGE, PRIVACY_MESSAGE, WELCOME_MESSAGE, WELCOME_MESSAGE_PRIVATE
 
 commands_router = Router()
 

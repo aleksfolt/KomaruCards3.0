@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.models import RefLink
-from loader import engine
+from utils.loader import engine
 
 
 async def get_ref_link(code: str) -> RefLink:

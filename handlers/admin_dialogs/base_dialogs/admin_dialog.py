@@ -13,7 +13,6 @@ from database.statistic import get_groups_count_created_by_date, get_groups_coun
     get_users_count_last_active_today, get_yesterday_groups_active, get_yesterday_users_active
 from database.user import get_all_users_with_pm_ids, get_user_with_pm_count
 from handlers.admin_dialogs.admin_states import AddAdminSG, AddRefLinkSG, AdminSG, DelSeasonSG, MailingSG, ViewRefLinkSG
-from utils.check_users_and_groups import run_check
 
 
 async def message_to_mailing_handler(message: Message, message_input: Message, manager: DialogManager):
@@ -66,9 +65,7 @@ async def get_statistics(dialog_manager: DialogManager, **kwargs):
     }
 
 
-async def update_users_clicked(callback: CallbackQuery, button: Button, manager: DialogManager):
-    await run_check()
-    await manager.switch_to(AdminSG.menu)
+
 
 
 admin_dialog = Dialog(
