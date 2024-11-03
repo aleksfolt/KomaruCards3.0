@@ -1,6 +1,5 @@
 sqlalchemy~=2.0.35
 asyncpg
-aiogram-dialog
 aiogram~=3.13.1
 python-dotenv~=1.0.1
 emoji~=2.12.1
