@@ -1,3 +1,6 @@
+# DEPRECATED
+- ACTUAL LINK: GITHUB.COM/FAUSTYU1/CARDSBOT
+
 # [Komaru Cards Bot](https://github.com/aleksfolt/KomaruCards3.0)
 
 # Оглавление
